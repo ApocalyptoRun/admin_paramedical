@@ -1,0 +1,10 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/products/edit/[...id]": "pages/products/edit/[...id].js",
+  "/products": "pages/products.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
+  "/api/products": "pages/api/products.js",
+  "/api/upload": "pages/api/upload.js"
+}
