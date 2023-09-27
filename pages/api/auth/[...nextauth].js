@@ -12,5 +12,5 @@ export default NextAuth({
     })
   ],
 
-  adapter: MongoDBAdapter(clientPromise)
+  adapter: MongoDBAdapter(clientPromise),
 })  

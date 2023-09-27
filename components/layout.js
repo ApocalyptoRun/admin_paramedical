@@ -21,7 +21,6 @@ export default function Layout({children}) {
             {children}
         </div>
       </div>
-      <button className="bg-red" onClick={() => signOut()}>logged out</button>
     </>
   )
   

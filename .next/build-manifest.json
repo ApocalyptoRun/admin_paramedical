@@ -22,6 +22,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/categories": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/categories.js"
+    ],
     "/products": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -31,6 +36,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/products/edit/[...id].js"
+    ],
+    "/products/new": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/products/new.js"
     ]
   },
   "ampFirstPages": []

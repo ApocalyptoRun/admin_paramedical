@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Spinner from "./Spinner";
@@ -9,20 +9,29 @@ export default function ProductForm({
     title: existingTitle,
     description: existingDescription,
     price: existingPrice,
-    images: existingImages
+    images: existingImages,
+    category : assignedCategory
+
 }) {
     const [title, setTitle] = useState(existingTitle || '');
     const [description, setDescription] = useState(existingDescription || '');
     const [price, setPrice] = useState(existingPrice || '');
+    const [category, setCategory] = useState(assignedCategory || '');
     const [gotToProduct, setGotToProduct] = useState(false)
-
     const [images, setImages] = useState(existingImages || [])
     const [isUploading,setIsUploading] = useState(false);
-
+    const [categories, setCategories] = useState([])
     const router = useRouter();
+
+    useEffect(() => {
+        axios.get('/api/categories').then(result => {
+            setCategories(result.data);
+        })
+    }, [])
+
     async function saveProduct(ev){
         ev.preventDefault();
-        const data = {title, description, price, images}
+        const data = {title, description, price, images, category}
         if(_id){
             await axios.put('/api/products', {...data,_id});      
         } else {
@@ -30,11 +39,10 @@ export default function ProductForm({
         }
         setGotToProduct(true);
     }
+    
     if(gotToProduct){
          router.push('/products')
     }
-
-    /////////////////////////////////////////////////////
     
     async function handleImageUpload(ev) {
         const files = ev.target?.files;
@@ -68,6 +76,15 @@ export default function ProductForm({
                 <input type="text" placeholder="product name"
                 value={title} 
                 onChange={ev => setTitle(ev.target.value)}/>
+
+                <label>Category</label>
+                <select value={category}
+                    onChange={ev => setCategory(ev.target.value)}>
+                    <option value="">Uncategorized</option>
+                    {categories.length > 0 && categories.map(c => (
+                        <option value={c._id}>{c.name}</option>
+                    ))}
+                </select>
 
                 <label>
                     Photos 
