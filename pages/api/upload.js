@@ -1,22 +1,24 @@
 import multiparty from 'multiparty'
 import {v2 as cloudinary} from 'cloudinary'
 import detenv from 'dotenv'
+import { mongooseConnect } from '@/lib/mongoose'
+import { isAdminRequest } from './auth/[...nextauth]';
 
 
 
 
 export default async function handle(req, res){
+    await mongooseConnect();
+    await isAdminRequest(req,res);
+
     var url = ''
     const form = new multiparty.Form();
- 
     const {fields,files} = await new Promise((resolve,reject) => {
         form.parse(req, (err, fields, files) => {
           if (err) reject(err);
           resolve({fields,files});
         });
       });
-
-    //console.log(files)
 
     detenv.config();
 
@@ -44,56 +46,11 @@ export default async function handle(req, res){
     
     }
      
-
-    // try{    
-    //     const { secure_url } = await cloudinary.uploader.upload(files.file[0].path,uploadOptions);
-    //     url = secure_url;
-    //    // console.log(secure_url)
-    // }catch (err) {
-    //     console.error('cloudinary Error : ', err)
-    // }
-    
-
     return res.json({links})
   
 
 }
     
-
-   
-
-    //  detenv.config();
-
-    //  cloudinary.config({
-    //     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    //     api_key: process.env.CLOUDINARY_API_KEY,
-    //     api_secret: process.env.CLOUDINARY_API_SECRET,
-    //  })
-
-    //  try {
-    //     const result = await cloudinary.uploader.upload(tmpFileName, {
-    //         folder: 'Products_Images',
-    //     })
-    //  } catch (error) {
-    //     console.error('Error : ',error);
-    //     throw error;
-    //  }
-
- 
-
-
-//   const form = new mutiparty.Form();
-
-//   const {fields, files} = await new Promise((resolve, reject) =>{
-//     form.parse(req,  (err, fields, files)=>{
-//         if(err) reject(err);
-//         resolve({fields,files})
-//   })
-//   })
-//   console.log('length:',files.file);
-   
-//   return res.json('ok')
-
 
 
 export const config =  {

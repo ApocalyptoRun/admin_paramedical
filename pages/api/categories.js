@@ -1,9 +1,11 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Category } from "@/models/category";
+import {isAdminRequest } from "./auth/[...nextauth]";
 
 export default async function handle(req, res) {
     const {method} = req;
     await mongooseConnect();
+    //await isAdminRequest(req,res);
 
     if(method === 'GET') {
         const categories = await Category.find().populate('parent')
@@ -11,12 +13,13 @@ export default async function handle(req, res) {
     }
 
     if(method === 'POST') {
-        const {name,parentCategory} = req.body;
+        const {name,parentCategory,properties} = req.body;
         var CategoryDoc = null
         if(parentCategory){
              CategoryDoc = await Category.create({
                 name,
-                parent:parentCategory
+                parent:parentCategory,
+                properties
             });
         } else {
              CategoryDoc = await Category.create({
@@ -28,10 +31,11 @@ export default async function handle(req, res) {
 
     
     if(method === 'PUT') {
-        const {name,parentCategory,_id} = req.body;
+        const {name,parentCategory,properties,_id} = req.body;
         const CategoryDoc = await Category.updateOne({_id}, {
             name,
-            parent:parentCategory
+            parent:parentCategory,
+            properties
         });
         res.json(CategoryDoc)
     }
