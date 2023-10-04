@@ -1,4 +1,4 @@
-import { useSession, signIn} from "next-auth/react"
+import { useSession, signIn, signOut} from "next-auth/react"
 import Nav from "@/components/nav"
 import { useState } from "react"
 import Logo from "./Logo"
@@ -6,6 +6,8 @@ import Logo from "./Logo"
 export default function Layout({children}) {
   const {data: session} = useSession()
   const [showNav, setShowNav] = useState(false)
+
+  console.log(session)
 
   if(!session){
     return (
@@ -42,3 +44,4 @@ export default function Layout({children}) {
   )
   
 }
+

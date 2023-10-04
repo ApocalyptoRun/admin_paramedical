@@ -9,7 +9,7 @@ import { isAdminRequest } from './auth/[...nextauth]';
 
 export default async function handle(req, res){
     await mongooseConnect();
-    await isAdminRequest(req,res);
+    //await isAdminRequest(req,res);
 
     var url = ''
     const form = new multiparty.Form();
